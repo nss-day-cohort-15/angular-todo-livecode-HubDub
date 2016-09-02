@@ -1,67 +1,18 @@
 "use strict";
-//this creates the angular module variable.
-var app = angular.module("TodoApp", []);
-
-//this is the controller for the nav bar - we always inject scope as the argument for the function. we'll define the navItems with an object of names.
-app.controller("NavCtrl", function($scope) {
-  $scope.navItems = [
-    {name: "Logout"},
-    {name: "All Items"},
-    {name: "New Items"}
-  ];
+//this creates the angular module variable. when we added angular-route to the app, we have to add it here in the array as a dependency "ngRoute". we also have to add it as a script tag in html and make sure we've downloaded it in our bower components. when he's talking about routing he is not talking about how we get to a file, but he is talking about how it looks in the url.
+var app = angular.module("TodoApp", ["ngRoute"]);
+//this is where we set up things we need to happen before the app runs, in the config. in this case we are going to tell it "when the route is this use this partial". when takes the route and an object as an argument. the object contains the partial. note that the U is cap the rl is not. this is where we match the url template and the controller.
+app.config(function($routeProvider) {
+  $routeProvider.
+    when('/items/list', {
+      templateUrl: 'partials/item-list.html',
+      // controller: 'TodoCtrl' //now that we're making factories we're not using this
+      controller: "ItemListCtrl"
+    }).
+    when('/items/new', {
+      templateUrl: 'partials/item-form.html',
+      controller: 'ItemListCtrl'
+    }).
+    //now we can add some protection for if there is a rouge link or user tries to add things to route to poke around your domain
+    otherwise('/items/list');
 });
-
-//now we'll create the controller for the body of the to do list
-app.controller("TodoCtrl", function($scope) {
-    $scope.items = [
-      {
-        id: 0,
-        task: "mow the lawn",
-        isCompleted: false,
-        dueDate: "12/5/17",
-        assignedTo: "Greg",
-        location: "Joe's house",
-        urgency: "low",
-        dependencies: "sunshine, clippers, hat, water, headphones"
-      },
-      {
-        id: 1,
-        task: "grade quizzes",
-        isCompleted: false,
-        dueDate: "12/5/15",
-        assignedTo: "Christina",
-        location: "NSS",
-        urgency: "high",
-        dependencies: "wifi, tissues, vodka"
-      },
-      {
-        id: 2,
-        task: "take a nap",
-        isCompleted: false,
-        dueDate: "5/21/16",
-        assignedTo: "Joe",
-        location: "Porch of lakefront cabin",
-        urgency: "medium",
-        dependencies: "hammock, silence"
-      }
-    ]; //now we'll do a new task to change the view so that some things are hidden while others show. we have to make it available to the view so we start with $scope. so showListView will show at first but when the button is clicked it calls the newItem function which changes showListView to false. we'll make a function to make that hide.
-    $scope.newTask = {};
-    $scope.showListView = true;
-    $scope.newItem = function() {
-      $scope.showListView = false;
-    };
-    $scope.allItem = function() {
-      $scope.showListView = true;
-    };
-    $scope.addNewItem = function() {
-      //we don't have to pass an object here, just grab new task and add it to our list. earlier we declared an empty object but as we did added the ng-model and the user filled out the form, these properties were created, so this object is built up for us at this point. the properties will auto update in the scope. we don't have to tell it anything, it just does it through the two way binding. but we have a cuple of properties to add that the user did not add:
-      $scope.newTask.isCompleted = false;
-      $scope.newTask.id = $scope.items.length;
-      //the above adds an ID based on the lenght of the array of objects.
-      $scope.items.push($scope.newTask);
-      //the above pushes the new object into the array of items.
-      $scope.newTask = {};
-      //the above clears out the object so it doesn't inherit a previous object property if someone doesn't completely fill out the next form
-    };
-});
-

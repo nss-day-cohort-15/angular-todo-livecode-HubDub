@@ -1,7 +1,6 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
-
     <title>Todo App</title>
     <link rel="stylesheet" type="text/css" href="lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- this link is for the search icon -->
@@ -10,107 +9,42 @@
 </head>
 <!-- TODO: Initialize our app -->
 <body ng-app="TodoApp">
-  <!-- TODO: Add a nav controller -once we bind it to NavCtrl then everything in this nav bar div is bound to that. this controller is only accessible inside these ng-app tags-->
-  <nav class="navbar navbar-default" ng-controller="NavCtrl">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Todo App</a>
-      </div>
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <!-- TODO: Use Angular to loop through nav items - we'll do ng-repeat and then do the loop like we do with an for in loop. now it will inject the names we creted in the navItems into these link tags-->
-        <ul class="nav navbar-nav navbar-right" ng-repeat="item in navItems">
-          <li><a href="#">{{item.name}}</a></li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+  <div ng-include="'partials/navbar.html'"></div>
+  <!-- there needs to be single quotes inside double quotes to show that it is an actual string, otherwise it will be looking for some kind of js -->
 
-  <!-- TODO: Add a controller for our todo list -->
-  <div ng-controller="TodoCtrl">
+   <!-- TODO: Add a controller for our todo list -->
+  <!-- <div ng-controller="TodoCtrl">
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3">
-        <!-- Let's call a js function from our HTML. wat? we will do this to change the state of what we can see on the page. we call the function when the click happens -->
+        Let's call a js function from our HTML. wat? we will do this to change the state of what we can see on the page. we call the function when the click happens
         <button class="col-xs-6 btn btn-success" ng-click="newItem()">New Item</button>
         <button class="col-xs-6 btn btn-info" ng-click="allItems()">All Items</button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-10 col-xs-offset-1 main-container">
-        <!-- TODO: Add boolean for hide/show to show only the part of the app you want at one time. we've created a function to set showListView to true or false depending on click, now we'll do ng-show and hook it to the showListView. if it's true then everything in this div will display, if it's false then it will be hidden-->
-        <div class="col-xs-12" ng-show="showListView">
-          <h1>Todo List</h1>
-          <div class="row">
-            <div class="col-xs-6 col-xs-offset-3">
-              <div class="input-group">
-                <span class="input-group-btn">
-                  <button class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </span>
-                <!-- TODO: Bind the input to our todo list. we put ng-model on this one and linked it to searchText-->
-                <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText">
-              </div>
-            </div>
-          </div>
-          <!-- TODO: Repeat over our todo list items and setup filtering by search term. we'll do ng-repeat with the for in to iterate over our to do items. you can add | filter and then tell it what data to filter on and it will filter as it iterates over the list. whatever is in the textbox this repeat will filter on, so this filter is hooked to the search text box. then we add the {{item.blah}} ng-repeat creates it's own scope for each item it creates. if you look at the angular add on in chrome you can see these will all have their own scope-->
-          <div ng-repeat="item in items | filter: searchText">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="col-xs-1"><input type="checkbox" name=""/></div>
-                <div class="col-xs-7">{{item.task}}</div>
-                <div class="col-xs-2">{{item.dueDate}}</div>
-                <div class="col-xs-1">{{item.assignedTo}}</div>
-                <div class="col-xs-1"><button class="btn btn-danger">X</button></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- TODO: Hide/show magic once more. here we will hook the ng-show to showListView as well but as not equal inteadof equal using the ! sign.-->
-        <div class="col-xs-12" ng-show="!showListView">
-          <h1>New Todo</h1>
-          <form>
-            <div class="form-group">
-              <label>Task Description</label>
-              <!-- TODO: Hook up this form to our JS for submitting. we want to bind each of these to the controller so we have immediate access upon input. on each input we'll do ng-model -->
-              <input type="text" class="form-control" placeholder="Some important task" ng-model"newTask.task" />
-            </div>
-            <div class="form-group">
-              <label>Due Date</label>
-              <input type="text" class="form-control" placeholder="01/12/17" ng-model"newTask.dueDate"/>
-            </div>
-            <div class="form-group">
-              <label>Assigned To</label>
-              <input type="text" class="form-control" placeholder="cohort 15" ng-model"newTask.assignedTo"/>
-            </div>
-            <div class="form-group">
-              <label>Location</label>
-              <input type="text" class="form-control" placeholder="attic" ng-model"newTask.location"/>
-            </div>
-            <div class="form-group">
-              <label>Urgency</label>
-              <input type="text" class="form-control" placeholder="low" ng-model"newTask.urgency"/>
-            </div>
-            <div class="form-group">
-              <label>Dependencies</label>
-              <input type="text" class="form-control" placeholder="brush chipper, monkey chow, the one ring" ng-model"newTask.dependencies"/>
-            </div>
-            <!-- TODO: bind this button to a function. now we'll tie this button to the addNewItem function so we can call addNewItem -->
-            <button class="btn btn-default" ng-click="addNewItem()">Submit</button>
-          </form>
-        </div>
+  </div> -->
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1 main-container">
+      <!-- TODO: Add boolean for hide/show to show only the part of the app you want at one time. we've created a function to set showListView to true or false depending on click, now we'll do ng-show and hook it to the showListView as an attribut in the below div. ng-show="showListView" if it's true then everything in this div will display, if it's false then it will be hidden. we did this at first then we commented it out so that we could hide and show differently by using partials, so we'll add ng-view. so when we're looking around the page, the url will look like we're going to different actual pages but we're really just injecting partials into the same page, but these becomes the map of where to go for the url. you need the # in the routes so that it knows that we're not actually going to a different page. angular route is a totally seperate library that has to be installed and pushed into our app as a dependency-->
+      <div class="col-xs-12" ng-view>
+      <!-- we moved this form into item-form.html. this is now setup to inject our partials here.-->
       </div>
     </div>
   </div>
+
 
 <script type="text/javascript" src="lib/bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js">
 </script>
 <script type="text/javascript" src="lib/bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="lib/bower_components/angular-route/angular-route.min.js"></script>
+<!-- app specific files -->
 <script type="text/javascript" src="app/app.js"></script>
+<!-- providers -->
+<script type="text/javascript" src="app/factories/ItemFactory.js"></script>
+<script type="text/javascript" src="app/factories/FilterFactory.js"></script>
+<!-- controllers -->
+<script type="text/javascript" src="app/controllers/TodoCtrl.js"></script>
+<script type="text/javascript" src="app/controllers/NavCtrl.js"></script>
+<script type="text/javascript" src="app/controllers/ItemListCtrl.js"></script>
 </body>
 </html>
