@@ -15,6 +15,10 @@ app.config(function($routeProvider) {
       controller: 'ItemNewCtrl'
     }).
     //now well add so we can see items-details partial when you click the item. the : becomes a variable and tells the router that anything after items/ will be saved itno this variable itemId so we can do stuff to it
+    when('/items/edit/:itemId', {
+      templateUrl: 'partials/item-edit-form.html',
+      controller: 'ItemEditCtrl'
+    }).
     when('/items/:itemId', {
       templateUrl: "partials/item-details.html",
       controller: "ItemViewCtrl"

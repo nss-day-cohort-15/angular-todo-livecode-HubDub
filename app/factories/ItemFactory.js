@@ -3,17 +3,22 @@
 app.factory("ItemStorage", ($q, $http, FirebaseUrl) => {
   //we'll write a function to fetch the data from internal json file
   let getItemList = () => {
-    console.log(FirebaseUrl);
+    // console.log(FirebaseUrl);
     let items = [];
     return $q((resolve, reject) => { //this is promise
       $http.get(`${FirebaseUrl}/items.json`) //ajax call
         .success((itemObject) => {  //instead of done
-          console.log(itemObject);
-          Object.keys(itemObject).forEach((key) => {
-            itemObject[key].id = key;
-            items.push(itemObject[key]);
-          });
+          // console.log(itemObject);
+          //this will make it not return an error when the databases is empty
+          if (itemObject !== null) {
+            Object.keys(itemObject).forEach((key) => {
+              itemObject[key].id = key;
+              items.push(itemObject[key]);
+            });
+            resolve(items);
+          } else {
           resolve(items); //this will send the array to the controller because we're using that filter, so we used the above line to look into the object at the keys and go over each then take the key and put it into the object as an id property on the object then we take the object and put it in the array items.
+          }
         })
         .error((error) => {
           reject(error);
@@ -47,6 +52,29 @@ app.factory("ItemStorage", ($q, $http, FirebaseUrl) => {
         });
     });
   };
+
+  let getOneItem = (itemId) => {
+    console.log("I'm in getOneItem ", itemId);
+    return $q( (resolve, reject) => {
+      $http.get(`${FirebaseUrl}/items/${itemId}.json`)
+        .success( (objToEdit) => {
+          resolve(objToEdit);
+        });
+    });
+  };
+
+  let putOneItem = (itemId, editObject) => {
+    console.log("I'm in putOneItem", editObject);
+    console.log("putOneItem", itemId);
+    // itemId = itemId.replace('-','');
+    // console.log("afterreplace", itemId);
+    return $q( (resolve, reject) => {
+      $http.put(`${FirebaseUrl}/items/${itemId}.json`, editObject)
+        .success( (editObject) => {
+          resolve(editObject);
+        });
+    });
+  };
 //now we add postNewItem to the return.
-  return {getItemList, postNewItem, deleteItem};
+  return {getItemList, postNewItem, deleteItem, getOneItem, putOneItem};
 });

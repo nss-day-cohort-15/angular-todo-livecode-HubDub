@@ -19,5 +19,8 @@ app.controller("ItemListCtrl", function($scope, ItemStorage, SearchTermData) {
         });
       });
   };
+
+
+
 });
 
