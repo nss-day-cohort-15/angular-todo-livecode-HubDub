@@ -21,8 +21,13 @@
     </div>
     <!-- end search box -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right" ng-repeat="item in navItems">
-        <li><a href="{{item.url}}">{{item.name}}</a></li>
+      <ul class="nav navbar-nav navbar-right">
+       <!-- ng-repeat="item in navItems" we removed this so that we could get a logout button instead of route-->
+        <!-- <li><a ng-show="{{item.showState}}" href="{{item.url}}">{{item.name}}</a></li> -->
+        <li ng-show="!$parent.isLoggedIn"><a ng-href="#/login">Login</a></li>
+        <li ng-show="$parent.isLoggedIn"><a ng-href="#/items/new">New Item</a></li>
+        <li ng-show="$parent.isLoggedIn"><a ng-href="#/items/list">All Items</a></li>
+        <li ng-show="$parent.isLoggedIn"><button ng-click="logout()">Logout</button></li>
       </ul>
     </div>
   </div>

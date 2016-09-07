@@ -2,11 +2,13 @@
 //now we'll create a factory and we'll use promises as a library in angular, so we have to put it in as a dependency $q. we'll do the same for ajax (or http) calls $http. factory is a collection of function that you will then export.
 app.factory("ItemStorage", ($q, $http, FirebaseUrl) => {
   //we'll write a function to fetch the data from internal json file
-  let getItemList = () => {
+  let getItemList = (user) => {
+    // console.log("in getItemList", user);
     // console.log(FirebaseUrl);
     let items = [];
     return $q((resolve, reject) => { //this is promise
-      $http.get(`${FirebaseUrl}/items.json`) //ajax call
+      $http.get(`${FirebaseUrl}items.json?orderBy="uid"&equalTo="${user}"`)
+      //ajax call. later we added the order by uid and = user to sort and recall only user objects.
         .success((itemObject) => {  //instead of done
           // console.log(itemObject);
           //this will make it not return an error when the databases is empty
@@ -27,6 +29,7 @@ app.factory("ItemStorage", ($q, $http, FirebaseUrl) => {
   };
   //now we write th function we made up in ItemNewCtrl
   let postNewItem = (newItem) => {
+    //newItem.uid = AuthFactory.getUserId();
     console.log(newItem);
     return $q( (resolve, reject) => {
       $http.post(`${FirebaseUrl}/items.json`, JSON.stringify(newItem))
@@ -59,9 +62,13 @@ app.factory("ItemStorage", ($q, $http, FirebaseUrl) => {
       $http.get(`${FirebaseUrl}/items/${itemId}.json`)
         .success( (objToEdit) => {
           resolve(objToEdit);
+        })
+        .error( (error) => {
+          reject(error);
         });
     });
   };
+//he wrote a formula getSingleItem to edit his items. he wrote it the same as above.
 
   let putOneItem = (itemId, editObject) => {
     console.log("I'm in putOneItem", editObject);
@@ -69,12 +76,15 @@ app.factory("ItemStorage", ($q, $http, FirebaseUrl) => {
     // itemId = itemId.replace('-','');
     // console.log("afterreplace", itemId);
     return $q( (resolve, reject) => {
-      $http.put(`${FirebaseUrl}/items/${itemId}.json`, editObject)
-        .success( (editObject) => {
-          resolve(editObject);
+      $http.put(`${FirebaseUrl}/items/${itemId}.json`, JSON.stringify(editObject))
+        .success( (FbObject) => {
+          resolve(FbObject);
         });
     });
   };
-//now we add postNewItem to the return.
+//he did the same as above in a function called updateItem, but he used patch instead of put. patch only replaces what is different instead of replacing the whole object. he did a json.stringify though.
+// $http.put(`${FirebaseUrl}/items/${itemId}.json`,
+//   JSON.stringify(editObject))
+//which you did not do. he also changed the object variable name to objFromFirebase in the success and resolves since it is resolving that object back to the place this function was called.
   return {getItemList, postNewItem, deleteItem, getOneItem, putOneItem};
 });

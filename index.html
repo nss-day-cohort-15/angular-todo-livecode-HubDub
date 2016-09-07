@@ -9,10 +9,12 @@
 </head>
 
 <body ng-app="TodoApp">
-  <div ng-include="'partials/navbar.html'"></div>
-  <div class="row">
-    <div class="col-xs-10 col-xs-offset-1 main-container">
-      <div class="col-xs-12" ng-view>
+  <div ng-controller="TopCtrl">
+    <div ng-include="'partials/navbar.html'"></div>
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1 main-container">
+        <div class="col-xs-12" ng-view>
+        </div>
       </div>
     </div>
   </div>
@@ -22,17 +24,22 @@
 </script>
 <script type="text/javascript" src="lib/bower_components/angular/angular.min.js"></script>
 <script type="text/javascript" src="lib/bower_components/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="lib/bower_components/firebase/firebase.js"></script>
 <!-- app specific files -->
 <script type="text/javascript" src="app/app.js"></script>
 <!-- providers -->
+<script type="text/javascript" src="app/values/fb-creds.js"></script>
 <script type="text/javascript" src="app/factories/ItemFactory.js"></script>
 <script type="text/javascript" src="app/factories/FilterFactory.js"></script>
+<script type="text/javascript" src="app/factories/AuthFactory.js"></script>
 <!-- controllers -->
+<script type="text/javascript" src="app/controllers/LogInCtrl.js"></script>
 <script type="text/javascript" src="app/controllers/TodoCtrl.js"></script>
 <script type="text/javascript" src="app/controllers/NavCtrl.js"></script>
 <script type="text/javascript" src="app/controllers/ItemListCtrl.js"></script>
 <script type="text/javascript" src="app/controllers/ItemNewCtrl.js"></script>
 <script type="text/javascript" src="app/controllers/ItemViewCtrl.js"></script>
 <script type="text/javascript" src="app/controllers/ItemEditCtrl.js"></script>
+<script type="text/javascript" src="app/controllers/TopCtrl.js"></script>
 </body>
 </html>
